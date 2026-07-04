@@ -1,0 +1,114 @@
+{
+	"name": "DF_Silver_To_Gold",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					},
+					"name": "BronzeSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet_Gold",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "BusinessMetrics"
+				},
+				{
+					"name": "select2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Type_of_Renewable_Energy as string,",
+				"          Installed_Capacity_MW as string,",
+				"          Energy_Production_MWh as string,",
+				"          Energy_Consumption_MWh as string,",
+				"          Energy_Storage_Capacity_MWh as string,",
+				"          Storage_Efficiency_Percentage as string,",
+				"          Grid_Integration_Level as string,",
+				"          Initial_Investment_USD as string,",
+				"          Funding_Sources as string,",
+				"          Financial_Incentives_USD as string,",
+				"          GHG_Emission_Reduction_tCO2e as string,",
+				"          Air_Pollution_Reduction_Index as string,",
+				"          Jobs_Created as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> BronzeSource",
+				"BronzeSource select(mapColumn(",
+				"          Type_of_Renewable_Energy,",
+				"          Installed_Capacity_MW,",
+				"          Energy_Production_MWh,",
+				"          Energy_Consumption_MWh,",
+				"          Energy_Storage_Capacity_MWh,",
+				"          Storage_Efficiency_Percentage,",
+				"          Grid_Integration_Level,",
+				"          Initial_Investment_USD,",
+				"          Funding_Sources,",
+				"          Financial_Incentives_USD,",
+				"          GHG_Emission_Reduction_tCO2e,",
+				"          Air_Pollution_Reduction_Index,",
+				"          Jobs_Created",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(toDouble(Installed_Capacity_MW) > 0 &&",
+				"toDouble(Energy_Production_MWh) > 0 &&",
+				"toDouble(Initial_Investment_USD) > 0) ~> filter1",
+				"filter1 derive(NetEnergy = toDouble(Energy_Production_MWh) - toDouble(Energy_Consumption_MWh),",
+				"          InvestmentPerMW = toDouble(Initial_Investment_USD) / toDouble(Installed_Capacity_MW),",
+				"          ProductionEfficiency = toDouble(Energy_Production_MWh) / toDouble(Installed_Capacity_MW),",
+				"          StorageRatio = toDouble(Energy_Storage_Capacity_MWh) / toDouble(Energy_Production_MWh)) ~> BusinessMetrics",
+				"BusinessMetrics select(mapColumn(",
+				"          Type_of_Renewable_Energy,",
+				"          Installed_Capacity_MW,",
+				"          Energy_Production_MWh,",
+				"          Energy_Consumption_MWh,",
+				"          Energy_Storage_Capacity_MWh,",
+				"          Storage_Efficiency_Percentage,",
+				"          Grid_Integration_Level,",
+				"          Initial_Investment_USD,",
+				"          Funding_Sources,",
+				"          Financial_Incentives_USD,",
+				"          GHG_Emission_Reduction_tCO2e,",
+				"          Air_Pollution_Reduction_Index,",
+				"          Jobs_Created,",
+				"          NetEnergy,",
+				"          InvestmentPerMW,",
+				"          ProductionEfficiency,",
+				"          StorageRatio",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

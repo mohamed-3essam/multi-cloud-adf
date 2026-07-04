@@ -1,0 +1,77 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "energy_dataset_modified.csv",
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Type_of_Renewable_Energy",
+				"type": "String"
+			},
+			{
+				"name": "Installed_Capacity_MW",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Production_MWh",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Consumption_MWh",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Storage_Capacity_MWh",
+				"type": "String"
+			},
+			{
+				"name": "Storage_Efficiency_Percentage",
+				"type": "String"
+			},
+			{
+				"name": "Grid_Integration_Level",
+				"type": "String"
+			},
+			{
+				"name": "Initial_Investment_USD",
+				"type": "String"
+			},
+			{
+				"name": "Funding_Sources",
+				"type": "String"
+			},
+			{
+				"name": "Financial_Incentives_USD",
+				"type": "String"
+			},
+			{
+				"name": "GHG_Emission_Reduction_tCO2e",
+				"type": "String"
+			},
+			{
+				"name": "Air_Pollution_Reduction_Index",
+				"type": "String"
+			},
+			{
+				"name": "Jobs_Created",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

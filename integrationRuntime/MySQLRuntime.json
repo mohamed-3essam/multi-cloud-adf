@@ -1,0 +1,6 @@
+{
+	"name": "MySQLRuntime",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

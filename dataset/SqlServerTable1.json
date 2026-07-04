@@ -1,0 +1,56 @@
+{
+	"name": "SqlServerTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Type_of_Renewable_Energy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Installed_Capacity_MW",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Energy_Production_MWh",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Energy_Consumption_MWh",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Energy_Storage_Capacity_MWh",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Storage_Efficiency_Percentage",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Grid_Integration_Level",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Initial_Investment_USD",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "renewable_energy_gold"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

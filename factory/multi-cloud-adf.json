@@ -1,0 +1,15 @@
+{
+	"name": "multi-cloud-adf",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "germanywestcentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "11ecb5c1-a094-49db-99d1-1288822caece",
+		"tenantId": "0bc92751-071a-4e2c-a48b-633206fef374"
+	}
+}
